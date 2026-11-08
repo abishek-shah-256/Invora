@@ -1,0 +1,7 @@
+{% extends "accounts/base.html" %}
+{% block title %}Roles & permissions{% endblock %}
+{% block page_heading %}Roles & permissions{% endblock %}
+{% block content %}
+<div class="content-heading heading-with-action"><div><span class="eyebrow">ADMINISTRATION</span><h1>Roles & permissions</h1><p>Define the access levels used across Invora.</p></div><a href="{% url 'role_create' %}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i> Add role</a></div>
+<div class="row g-3">{% for role in roles %}<div class="col-md-6 col-xl-4"><div class="panel-card role-card"><div class="role-card-top"><div class="stat-icon purple"><i class="bi bi-shield-check"></i></div>{% if role.is_system %}<span class="status-pill system">System role</span>{% else %}<span class="status-pill active">Custom role</span>{% endif %}</div><h5>{{ role.name }}</h5><p>{{ role.description|default:"No description added." }}</p><div class="role-card-foot"><span><i class="bi bi-people"></i> {{ role.users.count }} users</span>{% if role.is_system %}<span class="muted small">Protected</span>{% else %}<a href="{% url 'role_update' role.pk %}">Edit <i class="bi bi-arrow-right"></i></a>{% endif %}</div></div></div>{% empty %}<div class="col-12"><div class="panel-card empty-state">No roles configured. Run <code>python manage.py setup_invora</code> first.</div></div>{% endfor %}</div>
+{% endblock %}

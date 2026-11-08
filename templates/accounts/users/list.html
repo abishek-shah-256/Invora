@@ -1,0 +1,13 @@
+{% extends "accounts/base.html" %}
+{% block title %}User management{% endblock %}
+{% block page_heading %}User management{% endblock %}
+{% block content %}
+<div class="content-heading heading-with-action"><div><span class="eyebrow">ADMINISTRATION</span><h1>Users</h1><p>Manage Invora accounts, roles and department access.</p></div><a href="{% url 'user_create' %}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i> Add user</a></div>
+<div class="panel-card">
+  <form method="get" class="filter-bar"><div class="search-box"><i class="bi bi-search"></i><input name="q" value="{{ query }}" placeholder="Search name, email or employee ID..."></div><select name="role" class="form-select filter-select"><option value="">All roles</option>{% for r in roles %}<option value="{{ r.code }}" {% if selected_role == r.code %}selected{% endif %}>{{ r.name }}</option>{% endfor %}</select><select name="status" class="form-select filter-select"><option value="">All statuses</option><option value="active" {% if status == 'active' %}selected{% endif %}>Active</option><option value="inactive" {% if status == 'inactive' %}selected{% endif %}>Inactive</option></select><button class="btn btn-outline-secondary">Filter</button><a href="{% url 'user_list' %}" class="btn btn-light">Reset</a></form>
+  <div class="table-responsive"><table class="table invora-table align-middle"><thead><tr><th>USER</th><th>EMPLOYEE ID</th><th>ROLE</th><th>DEPARTMENT</th><th>STATUS</th><th></th></tr></thead><tbody>
+  {% for person in users %}<tr><td><div class="person-cell"><div class="avatar small-avatar">{{ person.first_name|first|upper }}{{ person.last_name|first|upper }}</div><div><strong>{{ person.get_full_name }}</strong><small>{{ person.email }}</small></div></div></td><td>{{ person.employee_id|default:"—" }}</td><td>{{ person.role.name|default:"Unassigned" }}</td><td>{{ person.department.name|default:"—" }}</td><td>{% if person.is_active %}<span class="status-pill active">Active</span>{% else %}<span class="status-pill inactive">Inactive</span>{% endif %}</td><td class="text-end"><a href="{% url 'user_detail' person.pk %}" class="icon-link" title="View user"><i class="bi bi-chevron-right"></i></a></td></tr>
+  {% empty %}<tr><td colspan="6"><div class="empty-state"><i class="bi bi-people"></i><p>No users match your search.</p></div></td></tr>{% endfor %}
+  </tbody></table></div><div class="table-foot">Showing {{ users|length }} user{{ users|length|pluralize }}</div>
+</div>
+{% endblock %}

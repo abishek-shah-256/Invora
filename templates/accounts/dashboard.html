@@ -1,0 +1,21 @@
+{% extends "accounts/base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block page_heading %}Dashboard{% endblock %}
+{% block content %}
+<div class="welcome-row"><div><h1>Good to see you, {{ request.user.first_name }}.</h1><p>Here is an overview of your Invora workspace.</p></div><span class="date-chip"><i class="bi bi-calendar3"></i> {% now "l, j F Y" %}</span></div>
+<div class="row g-3 mb-4">
+  <div class="col-6 col-xl-3"><div class="stat-card"><div class="stat-icon purple"><i class="bi bi-people"></i></div><span>Total users</span><strong>{{ total_users }}</strong><small>Registered accounts</small></div></div>
+  <div class="col-6 col-xl-3"><div class="stat-card"><div class="stat-icon green"><i class="bi bi-person-check"></i></div><span>Active users</span><strong>{{ active_users }}</strong><small>Can access the system</small></div></div>
+  <div class="col-6 col-xl-3"><div class="stat-card"><div class="stat-icon orange"><i class="bi bi-person-slash"></i></div><span>Inactive users</span><strong>{{ inactive_users }}</strong><small>Access disabled</small></div></div>
+  <div class="col-6 col-xl-3"><div class="stat-card"><div class="stat-icon blue"><i class="bi bi-shield-lock"></i></div><span>Roles</span><strong>{{ total_roles }}</strong><small>{{ total_departments }} departments</small></div></div>
+</div>
+<div class="row g-3">
+  <div class="col-lg-7"><div class="panel-card h-100"><div class="panel-heading"><div><h5>Recent activity</h5><p>Latest user and administration events</p></div>{% if request.user.is_invora_admin %}<a href="{% url 'audit_list' %}" class="text-link">View all <i class="bi bi-arrow-up-right"></i></a>{% endif %}</div>
+    {% if recent_logs %}<div class="activity-list">{% for log in recent_logs %}<div class="activity-item"><div class="activity-icon"><i class="bi bi-activity"></i></div><div class="activity-body"><strong>{{ log.action|title }} · {{ log.entity_type }}</strong><span>{{ log.description|default:"Activity recorded" }}</span><small>{{ log.actor|default:"System" }} · {{ log.created_at|date:"j M Y, g:i A" }}</small></div></div>{% endfor %}</div>{% else %}<div class="empty-state"><i class="bi bi-journal-check"></i><p>No activity has been recorded yet.</p></div>{% endif %}
+  </div></div>
+  <div class="col-lg-5"><div class="panel-card h-100"><div class="panel-heading"><div><h5>Team access</h5><p>Users grouped by assigned role</p></div></div>
+    {% for item in role_counts %}<div class="role-count"><span>{{ item.name }}</span><strong>{{ item.count }}</strong></div>{% empty %}<div class="empty-state"><p>No roles configured.</p></div>{% endfor %}
+    {% if request.user.is_invora_admin %}<a href="{% url 'user_list' %}" class="btn btn-outline-primary w-100 mt-3">Manage users</a>{% endif %}
+  </div></div>
+</div>
+{% endblock %}

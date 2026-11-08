@@ -1,0 +1,24 @@
+{% extends "accounts/base.html" %}
+{% block title %}Sign in{% endblock %}
+{% block auth_content %}
+<div class="login-page">
+  <div class="login-visual">
+    <div class="login-brand"><span class="brand-mark">I</span><span>invora</span></div>
+    <div class="login-message"><span class="eyebrow light">ONE CONNECTED WORKSPACE</span><h1>Smarter inventory.<br>Clearer decisions.</h1><p>Bring your inventory and procurement operations together in one secure workspace.</p></div>
+    <div class="login-foot">INVENTORY · PROCUREMENT · ACCOUNTABILITY</div>
+  </div>
+  <div class="login-panel">
+    <div class="login-form-wrap">
+      <div class="mobile-brand"><span class="brand-mark">I</span> invora</div>
+      <span class="eyebrow">WELCOME BACK</span><h2>Sign in to Invora</h2><p class="muted mb-4">Enter your account details to continue.</p>
+      {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+      <form method="post">{% csrf_token %}
+        <div class="mb-3"><label class="form-label">Email address</label>{{ form.username }}{% for e in form.username.errors %}<div class="field-error">{{ e }}</div>{% endfor %}</div>
+        <div class="mb-4"><label class="form-label">Password</label>{{ form.password }}{% for e in form.password.errors %}<div class="field-error">{{ e }}</div>{% endfor %}</div>
+        <button class="btn btn-primary w-100 btn-lg" type="submit">Sign in <i class="bi bi-arrow-right ms-2"></i></button>
+      </form>
+      <div class="login-security"><i class="bi bi-shield-check"></i> Your connection is protected by Invora access controls.</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

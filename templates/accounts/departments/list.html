@@ -1,0 +1,7 @@
+{% extends "accounts/base.html" %}
+{% block title %}Departments{% endblock %}
+{% block page_heading %}Departments{% endblock %}
+{% block content %}
+<div class="content-heading heading-with-action"><div><span class="eyebrow">ADMINISTRATION</span><h1>Departments</h1><p>Organise users by business department.</p></div><a href="{% url 'department_create' %}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i> Add department</a></div>
+<div class="panel-card"><div class="table-responsive"><table class="table invora-table align-middle"><thead><tr><th>DEPARTMENT</th><th>CODE</th><th>USERS</th><th>STATUS</th><th></th></tr></thead><tbody>{% for dept in departments %}<tr><td><strong>{{ dept.name }}</strong><small class="d-block muted">{{ dept.description|default:"No description" }}</small></td><td>{{ dept.code }}</td><td>{{ dept.users.count }}</td><td>{% if dept.is_active %}<span class="status-pill active">Active</span>{% else %}<span class="status-pill inactive">Inactive</span>{% endif %}</td><td class="text-end"><a href="{% url 'department_update' dept.pk %}" class="icon-link"><i class="bi bi-pencil"></i></a></td></tr>{% empty %}<tr><td colspan="5"><div class="empty-state"><i class="bi bi-diagram-3"></i><p>No departments added yet.</p></div></td></tr>{% endfor %}</tbody></table></div></div>
+{% endblock %}
