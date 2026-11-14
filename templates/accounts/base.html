@@ -18,6 +18,11 @@
     </a>
     <div class="nav-label">WORKSPACE</div>
     <a class="side-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}"><i class="bi bi-grid-1x2"></i> Dashboard</a>
+    <div class="nav-label mt-4">INVENTORY</div>
+    <a class="side-link" href="{% url 'inventory_overview' %}"><i class="bi bi-box-seam"></i> Inventory overview</a>
+    <a class="side-link" href="{% url 'inventory_item_list' %}"><i class="bi bi-boxes"></i> Items</a>
+    <a class="side-link" href="{% url 'inventory_categories' %}"><i class="bi bi-tags"></i> Categories</a>
+    <a class="side-link" href="{% url 'inventory_units' %}"><i class="bi bi-rulers"></i> Units</a>
     {% if request.user.is_invora_admin %}
     <div class="nav-label mt-4">ADMINISTRATION</div>
     <a class="side-link {% if 'user_' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'user_list' %}"><i class="bi bi-people"></i> User management</a>

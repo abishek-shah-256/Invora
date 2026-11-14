@@ -1,0 +1,13 @@
+{% extends 'accounts/base.html' %}
+{% block title %}Inventory overview{% endblock %}
+{% block page_heading %}Inventory overview{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2"><div><h2 class="fw-bold mb-1">Inventory workspace</h2><p class="text-muted mb-0">Week 2 · Item catalogue and stock thresholds</p></div><a href="{% url 'inventory_item_list' %}" class="btn btn-primary"><i class="bi bi-box-seam"></i> Browse items</a></div>
+<div class="row g-3 mb-4">
+<div class="col-md-3"><div class="card shadow-sm border-0 p-3"><span class="text-muted">Active items</span><h2>{{ item_count }}</h2></div></div>
+<div class="col-md-3"><div class="card shadow-sm border-0 p-3"><span class="text-muted">Categories</span><h2>{{ category_count }}</h2></div></div>
+<div class="col-md-3"><div class="card shadow-sm border-0 p-3"><span class="text-muted">Low-stock items</span><h2 class="text-danger">{{ low_count }}</h2></div></div>
+<div class="col-md-3"><div class="card shadow-sm border-0 p-3"><span class="text-muted">Estimated stock value</span><h2>${{ stock_value|floatformat:2 }}</h2></div></div>
+</div>
+<div class="row g-3"><div class="col-lg-7"><div class="card border-0 shadow-sm p-4"><h5>Low-stock watchlist</h5><p class="text-muted small">Items at or below their reorder level.</p><div class="table-responsive"><table class="table table-hover"><thead><tr><th>SKU</th><th>Item</th><th>On hand</th><th>Reorder at</th></tr></thead><tbody>{% for item in low_items %}<tr><td>{{ item.sku }}</td><td>{{ item.name }}</td><td><span class="badge bg-danger">{{ item.quantity }}</span></td><td>{{ item.reorder_level }}</td></tr>{% empty %}<tr><td colspan="4">No low-stock items.</td></tr>{% endfor %}</tbody></table></div></div></div><div class="col-lg-5"><div class="card border-0 shadow-sm p-4"><h5>Quick links</h5><div class="d-grid gap-2"><a class="btn btn-outline-primary" href="{% url 'inventory_item_list' %}">Inventory items</a><a class="btn btn-outline-primary" href="{% url 'inventory_categories' %}">Categories</a><a class="btn btn-outline-primary" href="{% url 'inventory_units' %}">Units of measurement</a></div><hr><p class="text-muted small mb-0">Stock in/out transactions and movement history are scheduled for Week 3. Quantities here represent opening balances.</p></div></div></div>
+{% endblock %}

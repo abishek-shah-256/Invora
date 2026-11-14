@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "accounts",
+    "inventory",
 ]
 
 MIDDLEWARE = [
@@ -46,13 +47,12 @@ ASGI_APPLICATION = "invora.asgi.application"
 
 
 DATABASES = {"default": {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'invora_db',
-    'USER': 'postgres',
-    'PASSWORD': 'kathmandu@123',
-    'HOST': '127.0.0.1',
-    'PORT': '5433'
-
+    "ENGINE": "django.db.backends.postgresql",
+    "NAME": os.getenv("DB_NAME", "invora_db"),
+    "USER": os.getenv("DB_USER", "postgres"),
+    "PASSWORD": os.getenv("DB_PASSWORD", ""),
+    "HOST": os.getenv("DB_HOST", "127.0.0.1"),
+    "PORT": os.getenv("DB_PORT", "5433"),
 }}
 
 AUTH_USER_MODEL = "accounts.User"
